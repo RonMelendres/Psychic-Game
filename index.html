@@ -16,8 +16,8 @@
         <p id="directions">To start the game, choose your first letter.</p>
         <p id="wins-text">Wins:</p>
         <p id="loss-text">Losses:</p>
-        <p id="guesses-text">Guesses Left:</p>
-        <p id="guessed-letters-text">Your Guesses So Far:</p>
+        <p id="guessed-letters-text">Guesses Left:</p>
+        <p id="guesses-text">Your Guesses so Far:</p>
 
     </div>
 
@@ -25,35 +25,57 @@
 
         var compChoice = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
-        console.log(wins);
+        // console.log(wins);
         var wins = 0;
         var losses = 0;
-
+        var guessCount = 10;
+        
 
         var directionsText = document.getElementById("directions");
         var winsText = document.getElementById("wins-text");
         var lossText = document.getElementById("loss-text");
-        var guessText = document.getElementById("guesses-text");
         var lettersText = document.getElementById("guessed-letters-text");
+        var guessText = document.getElementById("guesses-text");
+        
 
         document.onkeyup = function(event) {
             var userGuess = event.key;
             var computerAnswer = compChoice[Math.floor(Math.random() * compChoice.length)];
 
+            guessCount--
 
             if ((userGuess === "a") || (userGuess === "b") || (userGuess === "c") || (userGuess === "d") || (userGuess === "e") || (userGuess === "f") || (userGuess === "g") || (userGuess === "h") || (userGuess === "i") || (userGuess === "j") || (userGuess === "k") || (userGuess === "l") || (userGuess === "m") || (userGuess === "n") || (userGuess === "o") || (userGuess === "p") || (userGuess === "q") || (userGuess === "r") || (userGuess === "s") || (userGuess === "t") || (userGuess === "u") || (userGuess === "v") || (userGuess === "w") || (userGuess === "x") || (userGuess === "y") || (userGuess === "z")) {
 
                 if (userGuess === computerAnswer) {
                     wins++;
+
+                    // If userGuess and computerAnswer are the same, then wins go up by 1.
+                
+                } else if (userGuess !== computerAnswer) {
+                    guessCount;
+
+                    // However, if userGuess does not equal computerAnswer, the guessCount goes down by 1.
+                    // If the guessCount reaches 0, the losses increase by 1.
+                    
+                
                 } else {
                     losses++;
                 }
-                directionsText.textContent = "";
-                winsText.textContent = "wins: " + wins;
-                lossText.textContent = "losses: " + losses;
-                guessText.textContent = "You chose: " + userGuess;
-                lettersText.textContent = "The computer chose: " + compChoice;
+                    
                 
+
+                
+                
+                // if (guessCount-- === "0")
+
+                
+
+
+                directionsText.textContent = "";
+                winsText.textContent = "Wins: " + wins;
+                lossText.textContent = "Losses: " + losses;
+                lettersText.textContent = "Guesses Left: " + guessCount;
+                guessText.textContent = "You Guesses so Far: " + userGuess;
 
             }
 
