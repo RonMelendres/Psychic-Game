@@ -15,7 +15,7 @@
         <p id="wins-text">Wins:</p>
         <p id="loss-text">Losses:</p>
         <p id="guess-counter">Guesses Left:</p>
-        <p id="guesses-text">Your Guesses so Far:</p>
+        <p id="guesses-text">Your guesses so Far:</p>
 
     </div>
 
@@ -34,6 +34,7 @@
         var losses = 0;
         var guessCount = 10;
         var guessedLetters = [];
+        
         var computerAnswer = compChoice[Math.floor(Math.random() * compChoice.length)];
 
         
@@ -47,6 +48,7 @@
         function resetGame(){
              guessCount = 10;
              guessedLetters = [];
+             
              updateDom();
         };
 
@@ -55,6 +57,7 @@
              losses = 0;
              guessCount = 10;
              guessedLetters = [];
+             
         };
 
         // computer randomly seclects letter
@@ -70,8 +73,8 @@
             winsText.textContent = "Wins: " + wins;
             lossText.textContent = "Losses: " + losses;
             counterText.textContent = "Guesses Left: " + guessCount;
+            // guessText = "Your guesses so far:" + guessedLetters;
         }
-
 
         function checkStatus(){
             if (guessCount === 0) {
@@ -80,13 +83,15 @@
             }  
         };
 
+
         // When guess count reaches 0, loss incrament goes up by one and the game resets.
 
         function compareChoices(userGuess){
-
             // console.log(userGuess);
+            
             guessedLetters.push(userGuess);
-            guessText.textContent = "Your Guesses so Far: " + guessedLetters;
+            guessText.textContent = "Your guesses so Far: " + guessedLetters;
+
             if(compChoice.indexOf(userGuess) !== -1){
                 console.log(userGuess);
                 if (userGuess === computerAnswer) {
@@ -104,16 +109,25 @@
                     //If the user does guess correctly, win counter goes up by one, resets game, and computer chooses a different letter.
 
             }
-            
+        
         }
          
         //letterChoice - that is the document.onkeyup
         // console.log(computerAnswer);
         document.onkeyup = function (event) {
             var userGuess = event.key;
-            compareChoices(userGuess)
-
+            compareChoices(userGuess);
+            
         };
+
+        //Note: While the game does work, there's a small problem in which not only letters are displayed when pressed, but also numbers, "backspace" and "enter". I tried to change var guessedLetters = [], to = the whole alphabet. However by doing this, the console says that guessedLetters.push(userGuess);(line 90) is not a function. I tried creating a separate function (below) with the var with the alphabet, but it did not do anything.
+
+        // function letterDisplay(userGuess) {
+        //     guessedLetters.push(userGuess);
+        //     guessText.textContent = "Your guesses so Far: " + guessedLetters;
+        // }
+
+        
 
 
 
