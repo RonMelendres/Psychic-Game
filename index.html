@@ -3,8 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
     <title>Psychic Game</title>
 </head>
 
@@ -25,62 +23,100 @@
 
         var compChoice = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
+        // startingGame IntializingGame 
+            //sets the wins to 0
+            //set the losses to 0
+            // sets the guess count to 10
+            // sets "Your Guesses so Far: " to []
+
         // console.log(wins);
         var wins = 0;
         var losses = 0;
         var guessCount = 10;
+        var guessedLetters = [];
+        var computerAnswer = compChoice[Math.floor(Math.random() * compChoice.length)];
 
-
+        
         var directionsText = document.getElementById("directions");
         var winsText = document.getElementById("wins-text");
         var lossText = document.getElementById("loss-text");
         var counterText = document.getElementById("guess-counter");
         var guessText = document.getElementById("guesses-text");
+        
+
+        function resetGame(){
+             guessCount = 10;
+             guessedLetters = [];
+             updateDom();
+        };
+
+        function intializeGame(){
+             wins = 0; 
+             losses = 0;
+             guessCount = 10;
+             guessedLetters = [];
+        };
+
+        // computer randomly seclects letter
+
+        function generateRandomComputerNum(){
+            computerAnswer = compChoice[Math.floor(Math.random() * compChoice.length)];
+        };
+
+        //compare user choice to computer choice
+
+        function updateDom(){
+            directionsText.textContent = "";
+            winsText.textContent = "Wins: " + wins;
+            lossText.textContent = "Losses: " + losses;
+            counterText.textContent = "Guesses Left: " + guessCount;
+        }
 
 
-        document.onkeyup = function (event) {
-            var userGuess = event.key;
-            var computerAnswer = compChoice[Math.floor(Math.random() * compChoice.length)];
+        function checkStatus(){
+            if (guessCount === 0) {
+                losses++;
+                resetGame(); 
+            }  
+        };
 
+        // When guess count reaches 0, loss incrament goes up by one and the game resets.
 
+        function compareChoices(userGuess){
 
-            if ((userGuess === "a") || (userGuess === "b") || (userGuess === "c") || (userGuess === "d") || (userGuess === "e") || (userGuess === "f") || (userGuess === "g") || (userGuess === "h") || (userGuess === "i") || (userGuess === "j") || (userGuess === "k") || (userGuess === "l") || (userGuess === "m") || (userGuess === "n") || (userGuess === "o") || (userGuess === "p") || (userGuess === "q") || (userGuess === "r") || (userGuess === "s") || (userGuess === "t") || (userGuess === "u") || (userGuess === "v") || (userGuess === "w") || (userGuess === "x") || (userGuess === "y") || (userGuess === "z")) {
-
+            // console.log(userGuess);
+            guessedLetters.push(userGuess);
+            guessText.textContent = "Your Guesses so Far: " + guessedLetters;
+            if(compChoice.indexOf(userGuess) !== -1){
+                console.log(userGuess);
                 if (userGuess === computerAnswer) {
                     wins++;
-
-                    // If userGuess and computerAnswer are the same, then wins go up by 1.
-
+                    updateDom();
+                    resetGame();
+                    generateRandomComputerNum();
+                   
                 } else if (userGuess !== computerAnswer) {
                     guessCount--;
+                    updateDom()
+                    checkStatus();
                 }
-
-                if (userGuess !== computerAnswer) {
-                    document.getElementById("guesses-text")
-                }
-
-                // However, if userGuess does not equal computerAnswer, the guessCount goes down by 1 and displays and lists guessed letter in "Your guesses so far".
-
-                if (guessCount === 0) {
-                    losses++;
-                }
-
-                if (guessCount === 0) {
-                    guessCount = 10;
-                }
-
-                // If the guessCount reaches 0, losses increase by 1 and guessCount is reset to zero and "Your guesses so far " is cleared of guesses. 
-
-
-                directionsText.textContent = "";
-                winsText.textContent = "Wins: " + wins;
-                lossText.textContent = "Losses: " + losses;
-                counterText.textContent = "Guesses Left: " + guessCount;
-                guessText.textContent = "You Guesses so Far: " + userGuess;
+                    //If user guesses incorrectly, guess counter goes down by one and displays the previous guess.
+                    //If the user does guess correctly, win counter goes up by one, resets game, and computer chooses a different letter.
 
             }
+            
+        }
+         
+        //letterChoice - that is the document.onkeyup
+        // console.log(computerAnswer);
+        document.onkeyup = function (event) {
+            var userGuess = event.key;
+            compareChoices(userGuess)
 
         };
+
+
+
 
 
 
